@@ -42,7 +42,7 @@ while running:
     
     # displays the car on the track
     
-    screen.blit(car.rotated_image, car.new_rect)
+    screen.blit(car.image, car.rect)
     
     # update the display
     pygame.display.update()
