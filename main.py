@@ -17,10 +17,27 @@ CIRCUIT = pygame.transform.scale(CIRCUIT, (1000, 600))
 
 car = car.Car()
 
+clock = pygame.time.Clock()
+dt = clock.tick(60) / 1000
+
+def user_inputs():
+    drive_keys = pygame.key.get_pressed()
+    
+    if drive_keys[pygame.K_UP]:
+        car.acceleration += dt
+        car.vel.x += car.acceleration * dt
+        print(car.vel)
+        
+    elif drive_keys[pygame.K_DOWN]:
+        car.acceleration -= dt
+        car.vel.x -= car.acceleration * dt 
+
 # Run until user quits window
 running = True
 while running:
     
+
+
     for event in pygame.event.get():
         
         if event.type == pygame.QUIT:
