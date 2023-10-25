@@ -1,6 +1,6 @@
 import pygame
 import os
-import car
+from car import Car
 
 
 class Game():
@@ -17,15 +17,15 @@ class Game():
         
         CIRCUIT = pygame.image.load("./circuit.jpeg")
         CIRCUIT = pygame.transform.scale(CIRCUIT, (1000, 600))
+        self.CIRCUIT = CIRCUIT
         
         self.running = True
         
     def run(self):
         CAR = pygame.image.load(os.path.join(os.getcwd(), "./car.png"))
+        w, h= CAR.get_width(), CAR.get_height()
         car_image = pygame.transform.scale(CAR, (w * 0.1, h * 0.1))
-        w = CAR.get_width()
-        h = CAR.get_height()
-        car = car.Car()
+        car = Car()
     
         while self.running:
             
@@ -35,35 +35,43 @@ class Game():
             #définir une condition de sortie
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    running = False
+                    self.running = False
                     
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        running = False
+                        self.running = False
             
             #définition des commandes
             key_pressed = pygame.key.get_pressed()
             
             if key_pressed[pygame.K_UP]:
-                car.acceleration += dt
-                #car.vel.x += car.acceleration * dt  #(dv = a * dt)
+                car.acceleration += 1
                 
             elif key_pressed[pygame.K_DOWN]:
-                car.acceleration -= dt
-                #car.vel.x -= car.acceleration * dt  #(dv = a * dt)
-                
+                car.acceleration -= 1
+            
+            else:
+                if car.vel.x > 0:
+                    car.acceleration -= 0.5
+                else:
+                    car.acceleration = 0
             
             car.update(dt)
             
             self.screen.fill((0, 0, 0))
-            self.screen.blit(Game.CIRCUIT, (0, 0))
+            self.screen.blit(self.CIRCUIT, (0, 0))
             
-            rotated_image = pygame.transform.rotate(car_image, car.angle)
-            rect = rotated_image.get_rect()
+            new_image = pygame.transform.rotate(car_image, car.angle)
+            rect = new_image.get_rect(center=car.position)
             
-            self.screen.blit(car.self.image, car.self.rect)
+            self.screen.blit(new_image, rect)
             pygame.display.flip()
+            pygame.display.update()
             
             self.clock.tick(self.ticks)
             
         pygame.quit()
+        
+if __name__ == "__main__":
+    game = Game()
+    game.run()
