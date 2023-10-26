@@ -45,16 +45,22 @@ class Game():
             key_pressed = pygame.key.get_pressed()
             
             if key_pressed[pygame.K_UP]:
-                car.acceleration += 1
+                #car.acceleration = car.acceleration * (1 + dt)
+                car.acceleration += 5
                 
             elif key_pressed[pygame.K_DOWN]:
-                car.acceleration -= 1
+                car.acceleration -= 5
             
-            else:
-                if car.vel.x > 0:
-                    car.acceleration -= 0.5
-                else:
-                    car.acceleration = 0
+            #elif key_pressed[pygame.K_SPACE]:
+                #if abs(car.vel.x) > 0:
+                    #car.acceleration = -car.vel.x / dt
+                    
+            
+            #else:
+                #if car.vel.x > 0:
+                    #car.acceleration -= 0.5
+                #else:
+                    #car.acceleration = 0
             
             car.update(dt)
             
